@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxe Jewelry - Billing System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #d4af37; /* Gold */
+            --secondary-color: #333;
+            --light-color: #f9f9f9;
+            --dark-color: #222;
+            --success-color: #28a745;
+            --danger-color: #dc3545;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            animation: slideDown 0.5s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .logo i {
+            margin-right: 10px;
+            font-size: 2rem;
+        }
+
+        nav {
+            display: flex;
+        }
+
+        nav a {
+            display: flex;
+            align-items: center;
+            margin: 0 15px;
+            text-decoration: none;
+            color: var(--secondary-color);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        nav a:hover {
+            color: var(--primary-color);
+        }
+
+        nav a.active {
+            color: var(--primary-color);
+        }
+
+        nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--primary-color);
+            border-radius: 3px;
+        }
+
+        nav a i {
+            margin-right: 5px;
+        }
+
+        /* Main Content */
+        main {
+            padding: 2rem 0;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            animation: fadeIn 1s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .page-title h1 {
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .page-title p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        /* Form Styles */
+        .form-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            animation: slideUp 0.7s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-section {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .form-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            font-size: 1.3rem;
+            color: var(--secondary-color);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .section-title i {
+            margin-right: 10px;
+            color: var(--primary-color);
+        }
+
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -10px;
+        }
+
+        .form-group {
+            flex: 1 0 100%;
+            padding: 0 10px;
+            margin-bottom: 1.5rem;
+        }
+
+        @media (min-width: 576px) {
+            .form-group.half {
+                flex: 1 0 50%;
+            }
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+        }
+
+        .input-icon {
+            position: relative;
+        }
+
+        .input-icon i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+        }
+
+        .input-icon input {
+            padding-right: 40px;
+        }
+
+        /* Calculation Summary */
+        .calculation-summary {
+            background-color: #f8f8f8;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .calc-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.8rem;
+        }
+
+        .calc-row:last-child {
+            margin-bottom: 0;
+            padding-top: 0.8rem;
+            border-top: 1px solid #ddd;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .calc-row .label {
+            color: #666;
+        }
+
+        .calc-row .value {
+            font-weight: 600;
+        }
+
+        /* Button Styles */
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .btn:hover {
+            background-color: #c19d2c;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--success-color);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 5px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            nav {
+                margin-top: 1rem;
+            }
+
+            .page-title h1 {
+                font-size: 2rem;
+            }
+
+            .form-container {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-gem"></i>
+                    <span>Luxe Jewelry</span>
+                </div>
+                <nav>
+                    <a href="/" class="active">
+                        <i class="fas fa-file-invoice"></i>
+                        Create New Bill
+                    </a>
+                    <a href="/reports">
+                        <i class="fas fa-chart-line"></i>
+                        Sales Reports
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="page-title">
+                <h1>Create a New Bill</h1>
+                <p>Enter customer details and product information to generate a new bill</p>
+            </div>
+
+            <div class="form-container">
+                <form id="billingForm" action="/create_bill" method="post">
+                    <div class="form-section">
+                        <h2 class="section-title">
+                            <i class="fas fa-user"></i>
+                            Customer Information
+                        </h2>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="customer_name">Customer Name</label>
+                                <div class="input-icon">
+                                    <input type="text" id="customer_name" name="customer_name" required placeholder="Enter customer's full name">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                            </div>
+                            <div class="form-group half">
+                                <label for="customer_phone">Phone Number</label>
+                                <div class="input-icon">
+                                    <input type="text" id="customer_phone" name="customer_phone" placeholder="Enter phone number">
+                                    <i class="fas fa-phone"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h2 class="section-title">
+                            <i class="fas fa-gem"></i>
+                            Product Details
+                        </h2>
+                        <div class="form-group">
+                            <label for="product_details">Product Description</label>
+                            <div class="input-icon">
+                                <input type="text" id="product_details" name="product_details" required placeholder="e.g., 22K Gold Chain with Pendant">
+                                <i class="fas fa-tag"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h2 class="section-title">
+                            <i class="fas fa-calculator"></i>
+                            Pricing Details
+                        </h2>
+                        <div class="form-row">
+                            <div class="form-group half">
+                                <label for="gold_weight">Gold Weight (grams)</label>
+                                <div class="input-icon">
+                                    <input type="number" step="0.01" id="gold_weight" name="gold_weight" required placeholder="0.00">
+                                    <i class="fas fa-weight"></i>
+                                </div>
+                            </div>
+                            <div class="form-group half">
+                                <label for="gold_rate">Gold Rate (per gram)</label>
+                                <div class="input-icon">
+                                    <input type="number" step="0.01" id="gold_rate" name="gold_rate" required placeholder="0.00">
+                                    <i class="fas fa-coins"></i>
+                                </div>
+                            </div>
+                            <div class="form-group half">
+                                <label for="making_charges">Making Charges</label>
+                                <div class="input-icon">
+                                    <input type="number" step="0.01" id="making_charges" name="making_charges" required placeholder="0.00">
+                                    <i class="fas fa-tools"></i>
+                                </div>
+                            </div>
+                            <div class="form-group half">
+                                <label for="gst">GST (%)</label>
+                                <div class="input-icon">
+                                    <input type="number" step="0.01" id="gst" name="gst" value="3" placeholder="3">
+                                    <i class="fas fa-percentage"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="calculation-summary">
+                            <div class="calc-row">
+                                <span class="label">Gold Amount:</span>
+                                <span class="value" id="gold_amount">₹0.00</span>
+                            </div>
+                            <div class="calc-row">
+                                <span class="label">Making Charges:</span>
+                                <span class="value" id="making_charge_display">₹0.00</span>
+                            </div>
+                            <div class="calc-row">
+                                <span class="label">GST Amount:</span>
+                                <span class="value" id="gst_amount">₹0.00</span>
+                            </div>
+                            <div class="calc-row">
+                                <span class="label">Total Amount:</span>
+                                <span class="value" id="total_amount">₹0.00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="btn-group">
+                        <button type="submit" class="btn btn-block">
+                            <i class="fas fa-save"></i> Save Bill
+                        </button>
+                        <button type="button" class="btn btn-secondary btn-block" id="resetBtn">
+                            <i class="fas fa-redo"></i> Reset Form
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">Bill saved successfully!</span>
+    </div>
+
+    <script>
+        // Auto calculation functionality
+        const goldWeightInput = document.getElementById('gold_weight');
+        const goldRateInput = document.getElementById('gold_rate');
+        const makingChargesInput = document.getElementById('making_charges');
+        const gstInput = document.getElementById('gst');
+        
+        const goldAmountDisplay = document.getElementById('gold_amount');
+        const makingChargeDisplay = document.getElementById('making_charge_display');
+        const gstAmountDisplay = document.getElementById('gst_amount');
+        const totalAmountDisplay = document.getElementById('total_amount');
+        
+        function calculateTotal() {
+            const weight = parseFloat(goldWeightInput.value) || 0;
+            const rate = parseFloat(goldRateInput.value) || 0;
+            const makingCharges = parseFloat(makingChargesInput.value) || 0;
+            const gstPercent = parseFloat(gstInput.value) || 0;
+            
+            const goldAmount = weight * rate;
+            const subtotal = goldAmount + makingCharges;
+            const gstAmount = subtotal * (gstPercent / 100);
+            const total = subtotal + gstAmount;
+            
+            goldAmountDisplay.textContent = `₹${goldAmount.toFixed(2)}`;
+            makingChargeDisplay.textContent = `₹${makingCharges.toFixed(2)}`;
+            gstAmountDisplay.textContent = `₹${gstAmount.toFixed(2)}`;
+            totalAmountDisplay.textContent = `₹${total.toFixed(2)}`;
+        }
+        
+        // Add event listeners for auto calculation
+        goldWeightInput.addEventListener('input', calculateTotal);
+        goldRateInput.addEventListener('input', calculateTotal);
+        makingChargesInput.addEventListener('input', calculateTotal);
+        gstInput.addEventListener('input', calculateTotal);
+        
+        // Form submission
+        const billingForm = document.getElementById('billingForm');
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toastMessage');
+        
+        billingForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Show success toast
+            toastMessage.textContent = 'Bill saved successfully!';
+            toast.classList.add('show');
+            
+            // Hide toast after 3 seconds
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+            
+            // In a real application, you would submit the form here
+            // For demo purposes, we'll just log the form data
+            console.log('Form submitted with data:', new FormData(billingForm));
+        });
+        
+        // Reset form
+        const resetBtn = document.getElementById('resetBtn');
+        resetBtn.addEventListener('click', function() {
+            billingForm.reset();
+            calculateTotal();
+            
+            // Show reset toast
+            toastMessage.textContent = 'Form has been reset!';
+            toast.classList.add('show');
+            
+            // Hide toast after 3 seconds
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        });
+        
+        // Initialize calculation on page load
+        calculateTotal();
+    </script>
+</body>
+</html>

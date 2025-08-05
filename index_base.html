@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>New Bill</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; margin: 2rem; background-color: #f4f4f9; }
+        h1, h2 { color: #333; }
+        nav a { margin-right: 15px; text-decoration: none; color: #007bff; }
+        form { background: #fff; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); max-width: 600px; }
+        label { display: block; margin-top: 1rem; font-weight: bold; }
+        input { width: 100%; padding: 8px; margin-top: 5px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
+        button { background: #28a745; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; margin-top: 1.5rem; font-size: 1rem; }
+        button:hover { background: #218838; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="/">Create New Bill</a> |
+        <a href="/reports">View Sales Reports</a>
+    </nav>
+    <hr>
+    <h1>Create a New Bill</h1>
+    <form action="/create_bill" method="post">
+        <h2>Customer & Product</h2>
+        <label for="customer_name">Customer Name:</label>
+        <input type="text" id="customer_name" name="customer_name" required>
+
+        <label for="customer_phone">Customer Phone:</label>
+        <input type="text" id="customer_phone" name="customer_phone">
+
+        <label for="product_details">Product Details (e.g., 22K Gold Chain):</label>
+        <input type="text" id="product_details" name="product_details" required>
+
+        <h2>Calculation</h2>
+        <label for="gold_weight">Gold Weight (in grams):</label>
+        <input type="number" step="0.01" id="gold_weight" name="gold_weight" required>
+
+        <label for="gold_rate">Gold Rate (per gram):</label>
+        <input type="number" step="0.01" id="gold_rate" name="gold_rate" required>
+
+        <label for="making_charges">Making Charges:</label>
+        <input type="number" step="0.01" id="making_charges" name="making_charges" required>
+
+        <button type="submit">Save Bill</button>
+    </form>
+</body>
+</html>
+

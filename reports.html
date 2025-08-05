@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sales Reports</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; margin: 2rem; }
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #007bff; color: white; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        nav a { margin-right: 15px; text-decoration: none; color: #007bff; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="/">Create New Bill</a> |
+        <a href="/reports">View Sales Reports</a>
+    </nav>
+    <hr>
+    <h1>Sales Reports</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Invoice ID</th>
+                <th>Date</th>
+                <th>Customer</th>
+                <th>Total Amount (INR)</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sale in sales %}
+            <tr>
+                <td>{{ sale['id'] }}</td>
+                <td>{{ sale['sale_date'].split(' ')[0] }}</td>
+                <td>{{ sale['customer_name'] }}</td>
+                <td>{{ "%.2f"|format(sale['total_amount']) }}</td>
+                <td>
+                    <a href="/invoice/{{ sale['id'] }}" target="_blank">View Invoice</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>    
+</body>
+</html>
+
